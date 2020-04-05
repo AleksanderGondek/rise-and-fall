@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@bazel/typescript@latest":
+"@bazel/typescript@1.5.0":
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/@bazel/typescript/-/typescript-1.5.0.tgz#d69324c08e7dbfe10b21a6fcb7b4d66c71c8d171"
   integrity sha512-Vi8n1p35EhxGC22TEnmnVPlyakrALyH2ccVN5J6YeZXE1oWlSMSqQEhXKTjqUfQ3FT76nW1K91AdH4TG3me5nQ==
