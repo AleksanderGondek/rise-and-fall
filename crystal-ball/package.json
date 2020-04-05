@@ -1,0 +1,9 @@
+{
+    "name": "rise_and_fall_of_dwarven_empire_crystal_ball",
+    "version": "0.0.1",
+    "private": true,
+    "dependencies": {
+        "@bazel/typescript": "latest",
+        "typescript": "latest"
+    }
+}
