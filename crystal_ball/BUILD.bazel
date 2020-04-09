@@ -10,7 +10,10 @@ exports_files(["tsconfig.json"], visibility = ["//visibility:public"])
 
 ts_library(
   name = "hello",
-  srcs = glob(["hello.ts"]),
+  srcs = glob(["src/hello.ts"]),
+  tsconfig = "//:tsconfig.json",
+  devmode_target = "es2018",
+  prodmode_target = "es2018",
   deps = [],
 )
 
