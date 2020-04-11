@@ -38,6 +38,15 @@ rollup_bundle(
     ":game",
     "@npm//excalibur",
     "@npm//lodash",
+    # Weird observation:
+    # It seems that on NixOS 19.09
+    # The bazel absration over node_modules
+    # is 'leaky' -> builder is able to see
+    # node_modules that should not be present
+    # While on Ubuntu, he behaves correctly.
+    "@npm//@rollup/plugin-commonjs",
+    "@npm//@rollup/plugin-node-resolve",
+    "@npm//@rollup/plugin-typescript",
   ],
 )
 
