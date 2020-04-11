@@ -1,24 +1,63 @@
 package(default_visibility=["//visibility:public"])
 
+exports_files(["tsconfig.json"], visibility = ["//visibility:public"])
+exports_files(["rollup.config.js"], visibility = ["//visibility:public"])
+exports_files(["index.html"], visibility = ["//visibility:public"])
+
+load("@npm_bazel_rollup//:index.bzl",
+  "rollup_bundle"
+)
 load(
   "@npm_bazel_typescript//:index.bzl",
   "ts_library",
   "ts_devserver"
 )
 
-exports_files(["tsconfig.json"], visibility = ["//visibility:public"])
-
 ts_library(
-  name = "hello",
-  srcs = glob(["src/hello.ts"]),
+  name = "game",
+  srcs = glob(["src/main.ts"]),
   tsconfig = "//:tsconfig.json",
-  devmode_target = "es2018",
-  prodmode_target = "es2018",
-  deps = [],
+  devmode_target = "es2015",
+  devmode_module = "es2015",
+  prodmode_target = "es2015",
+  prodmode_module = "es2015",
+  deps = [
+    "@npm//excalibur",
+    "@npm//@types/lodash",
+    "@npm//lodash",
+  ]
+)
+
+rollup_bundle(
+  name = "bundle",
+  entry_point = "src/main.ts",
+  config_file = "//:rollup.config.js",
+  format = "iife",
+  srcs = [":game"],
+  deps = [
+    ":game",
+    "@npm//excalibur",
+    "@npm//lodash",
+  ],
+)
+
+filegroup(
+  name = "js_libs",
+  srcs = glob(
+    include = [
+      "node_modules/excalibur/dist/excalibur.min.js"
+    ],
+  ) + [
+    "@lodash_release//file"
+  ],
 )
 
 ts_devserver(
   name = "devserver",
-  deps = [":hello"],
-  serving_path = "/bundle.js"
+  deps = [],
+  static_files = [
+    "index.html",
+    ":js_libs",
+    ":bundle"
+  ],
 )

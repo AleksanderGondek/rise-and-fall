@@ -10,6 +10,13 @@ http_archive(
   urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/1.5.0/rules_nodejs-1.5.0.tar.gz"],
 )
 
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")
+http_file(
+  name = "lodash_release",
+  urls = ["https://raw.githubusercontent.com/lodash/lodash/4.17.10-npm/lodash.min.js"],
+  sha256 = "fc62b2274050243f1cf146207fbce206bb3f420722912ec5bff49a02b8017042",
+)
+
 new_local_repository(
   name = "nix_vendored",
   path = "./vendored",

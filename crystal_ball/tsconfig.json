@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target":"ES2018",
+    "target":"ES2015",
+    "module": "ES2015",
     "allowJs": false,
-    "declarationMap": true,
     "sourceMap": true,
     "removeComments": true,
     "alwaysStrict": true,
@@ -18,7 +18,7 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "experimentalDecorators": true,
-    "baseUrl": "src"
+    "types": ["excalibur"],
   },
   "bazelOptions": {
     "workspaceName": ""
