@@ -61,12 +61,22 @@ filegroup(
   ],
 )
 
+filegroup(
+  name = "gfx_assets",
+  srcs = glob(
+    include = [
+      "assets/**/*.png"
+    ],
+  )
+)
+
 ts_devserver(
   name = "devserver",
   deps = [],
   static_files = [
     "index.html",
     ":js_libs",
+    ":gfx_assets",
     ":bundle"
   ],
 )
