@@ -15,7 +15,7 @@ load(
 
 ts_library(
   name = "game",
-  srcs = glob(["src/main.ts"]),
+  srcs = glob(["src/**/*.ts"]),
   tsconfig = "//:tsconfig.json",
   devmode_target = "es2015",
   devmode_module = "es2015",
@@ -40,7 +40,7 @@ rollup_bundle(
     "@npm//lodash",
     # Weird observation:
     # It seems that on NixOS 19.09
-    # The bazel absration over node_modules
+    # The bazel abstraction over node_modules
     # is 'leaky' -> builder is able to see
     # node_modules that should not be present
     # While on Ubuntu, he behaves correctly.

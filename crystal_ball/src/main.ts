@@ -2,27 +2,14 @@ import * as ex from "excalibur";
 import * as _ from "lodash";
 import { Color, DisplayMode } from "excalibur";
 
-const resources = {
-  floorTile: new ex.Texture("/assets/walls/floor_tile.png"),
-  wallTop: new ex.Texture("/assets/walls/border_top.png"),
-  wallCornerTopLeft: new ex.Texture("/assets/walls/border_top_left.png"),
-  wallCornerTopRight: new ex.Texture("/assets/walls/border_top_right.png"),
-  wallMiddle: new ex.Texture("/assets/walls/border_middle.png"),
-  wallCornerBottom: new ex.Texture("/assets/walls/border_top.png"),
-  wallCornerBottomLeft: new ex.Texture("/assets/walls/border_bottom_left.png"),
-  wallCornerBottomRight: new ex.Texture("/assets/walls/border_bottom_right.png"),
-};
-
-const loader = new ex.Loader(_.flatMap(resources));
-loader.playButtonText = "Descend into darkness..";
-loader.backgroundColor = "darkgrey";
+import { GfxLoader, Resources } from "./gfx";
 
 const game = new ex.Engine({
   displayMode: DisplayMode.FullScreen,
   backgroundColor: Color.fromRGB(0,0,0,1)
 })
 
-game.start(loader).then(() => {
+game.start(GfxLoader).then(() => {
   _.each(_.range(60, 252, 16), x => {
     _.each(_.range(60, 252, 16), y => {
       const entity = new ex.Actor({
@@ -30,23 +17,23 @@ game.start(loader).then(() => {
       })
       
       if(x == 60 && y == 60) {
-        entity.addDrawing(resources.wallCornerTopLeft);
+        entity.addDrawing(Resources.textures.wallCornerTopLeft);
       } else if (x == 236 && y == 60) {
-        entity.addDrawing(resources.wallCornerTopRight);
+        entity.addDrawing(Resources.textures.wallCornerTopRight);
       } else if ( x == 60 && y == 236) {
-        entity.addDrawing(resources.wallCornerBottomLeft);
+        entity.addDrawing(Resources.textures.wallCornerBottomLeft);
       } else if ( x == 236 && y == 236) {
-        entity.addDrawing(resources.wallCornerBottomRight);
+        entity.addDrawing(Resources.textures.wallCornerBottomRight);
       } else if (x > 60 && x < 236 && y == 60) {
-        entity.addDrawing(resources.wallTop);
+        entity.addDrawing(Resources.textures.wallTop);
       } else if (x > 60 && x < 236 && y == 236) {
-        entity.addDrawing(resources.wallTop);
+        entity.addDrawing(Resources.textures.wallTop);
       } else if (x == 60 && y > 60 && y < 236) {
-        entity.addDrawing(resources.wallMiddle);
+        entity.addDrawing(Resources.textures.wallMiddle);
       } else if (x == 236 && y > 60 && y < 236) {
-        entity.addDrawing(resources.wallMiddle);
+        entity.addDrawing(Resources.textures.wallMiddle);
       } else {
-        entity.addDrawing(resources.floorTile);
+        entity.addDrawing(Resources.textures.floorTile);
       }
       game.add(entity);
     });
