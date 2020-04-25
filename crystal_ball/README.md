@@ -1,7 +1,7 @@
 Crystal ball
 ---
 
-![](https://github.com/AleksanderGondek/rise-and-fall/workflows/crystal_ball/badge.svg)
+[![built with nix](https://builtwithnix.org/badge.svg)](https://builtwithnix.org) ![](https://github.com/AleksanderGondek/rise-and-fall/workflows/crystal_ball/badge.svg)
 
 
 ## Attributions
