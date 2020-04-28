@@ -5,6 +5,7 @@
   "dependencies": {
     "@bazel/typescript": "1.5.0",
     "typescript": "3.8.3",
+    "fp-ts": "2.5.3",
     "@bazel/rollup": "1.5.0",
     "rollup": "2.4.0",
     "tslib": "1.11.1",
