@@ -26,6 +26,7 @@ ts_library(
     "@npm//@types/lodash",
     "@npm//lodash",
     "@npm//fp-ts",
+    "@npm//@types/websocket",
   ]
 )
 
@@ -38,8 +39,10 @@ rollup_bundle(
   deps = [
     ":game",
     "@npm//excalibur",
+    "@npm//@types/lodash",
     "@npm//lodash",
     "@npm//fp-ts",
+    "@npm//@types/websocket",
     # Weird observation:
     # It seems that on NixOS 19.09
     # The bazel abstraction over node_modules
