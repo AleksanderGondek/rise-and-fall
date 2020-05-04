@@ -10,11 +10,15 @@ export default {
       "lodash": "_"
     }
   },
+  external: [
+    "excalibur",
+    "lodash",
+  ],
   plugins: [
     typescript(),
     resolve({
       browser: true,
-      modulesOnly: true
+      modulesOnly: false
     }),
     commonjs()
   ]
