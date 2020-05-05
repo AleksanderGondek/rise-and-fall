@@ -1,79 +1,60 @@
-import * as E from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/pipeable";
+import * as E from 'fp-ts/lib/Either';
+import * as TE from 'fp-ts/lib/TaskEither';
 
-import { Engine } from "excalibur";
 
-import { updateDisplayedState } from "./gameState";
-import { IGameEntity } from "./model";
-
-const createConnection = function(serverURI: string): E.Either<Error, WebSocket> {
-  return E.tryCatch<Error, WebSocket>(
-    () => new WebSocket(serverURI),
-    reason => new Error(String(reason))
-  )
+export const createConnection = function(serverURI: string): TE.TaskEither<Error, WebSocket> {
+  return TE.tryCatch(
+    () => {
+      try {
+        return Promise.resolve(
+          new WebSocket(serverURI)
+        );
+      }
+      catch(error) {
+        return Promise.reject(error);
+      }
+    },
+    rejectionReason => new Error(String(rejectionReason))
+  );
 };
 
-const parseResponse = function(data: string): E.Either<Error, IGameEntity[]> {
-  return E.tryCatch<Error, IGameEntity[]>(
-    () => JSON.parse(data),
-    reason => new Error(String(reason))
-  )
-};
+export const handleServerConnection = function(
+  connection: WebSocket,
+  handleServerMsg: (data: string) => E.Either<Error,boolean>,
+  onOpen?: (event: Event) => void,
+  onError?: (event: Event) => void,
+  onClose?: (event: CloseEvent) => void,
+  ): TE.TaskEither<Error, void> {
+    return TE.tryCatch(
+      () => new Promise((resolve, reject) => {
+        // On WebSocket connection open
+        connection.onopen = (event: Event) => {
+          console.log("WebSocket connection opened.");
+          if(onOpen) { onOpen(event); }
+        };
 
-const onConnectionOpen = function(_: Engine) {
-  return function(event: Event) {
-    console.log("Connection opened!");
-    console.log(event);
-  };
-};
+        // On WebSocket connection error
+        connection.onerror = (event: Event) => {
+          console.log("WebSocket connection error.");
+          if(onError) { onError(event); }
+        };
 
-const onConnectionError = function(displayEngine: Engine) {
-  return function(event: Event) {
-    console.log("Connection error!");
-    console.log(event);
-    displayEngine.stop();
-  };
-};
+        // On WebSocket connection closed
+        connection.onclose = function(event: CloseEvent) {
+          console.log("WebSocket connection closed.");
+          if(onClose)  { onClose(event); }
+          reject("Connection closed.");
+        }
 
-const onConnectionClosed = function(displayEngine: Engine) {
-  return function(event: CloseEvent) {
-    console.log("Connection closed! Code: " + event.code);
-    displayEngine.stop();
-  };
-};
-
-
-const onMessageReceived = function(displayEngine: Engine) {
-  return function(event: MessageEvent) {
-    console.log("Message received!");
-    pipe(
-      parseResponse(event.data),
-      E.fold(
-        parseError => {
-          console.log("Error parsing server response!");
-          console.log(parseError);
-        },
-        gameState => updateDisplayedState(displayEngine)(gameState),
-      )
+        // On receiving message from server
+        connection.onmessage = function(event: MessageEvent) {
+          if(E.getOrElse(() => false)(handleServerMsg(event.data))) {
+            resolve();
+          } else {
+            reject("Error while processing server message.");
+          }
+        };
+      }),
+      rejectionReason => new Error(String(rejectionReason))
     );
-  };
-}
-
-export function syncGameState(serverURI: string, displayEngine: Engine) {
-  return pipe(
-    createConnection(serverURI),
-    E.fold(
-      error => {
-        console.log("Unable to create connection!");
-        console.log(error);
-        displayEngine.stop();
-      },
-      connection => {
-        connection.onopen = onConnectionOpen(displayEngine);
-        connection.onmessage = onMessageReceived(displayEngine);
-        connection.onerror = onConnectionError(displayEngine);
-        connection.onclose = onConnectionClosed(displayEngine);
-      },
-    )
-  )
-}
+};

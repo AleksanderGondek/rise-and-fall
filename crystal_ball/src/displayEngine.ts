@@ -13,7 +13,7 @@ const civilizeDumbPromise = function<T>(rp: DumbPromise<T>): Promise<T> {
   });
 };
 
-export const createDisplayEngine = function(): TE.TaskEither<unknown, Engine> {
+export const createDisplayEngine = function(): TE.TaskEither<Error, Engine> {
   return TE.tryCatch(
     () => {
       try {
@@ -35,7 +35,7 @@ export const createDisplayEngine = function(): TE.TaskEither<unknown, Engine> {
 export const startDisplayEngine = function(
   displayEngine: Engine,
   assetLoader: Loader
-  ): TE.TaskEither<unknown, any> {
+  ): TE.TaskEither<Error, any> {
     const displayEngineStartedPromise: Promise<any> = civilizeDumbPromise(
       displayEngine.start(assetLoader)
     );
