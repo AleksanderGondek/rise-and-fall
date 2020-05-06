@@ -1,16 +1,31 @@
 import { pipe } from "fp-ts/lib/pipeable";
-import * as E from 'fp-ts/lib/Either';
+import * as O from 'fp-ts/lib/Option';
 import * as TE from 'fp-ts/lib/TaskEither';
 
 import { createDisplayEngine, startDisplayEngine } from "./displayEngine";
+import { createGfxLoader } from "./gfx";
+import { syncGameState } from "./gameState";
 import { createConnection, handleServerConnection } from "./serverConnection";
-import { GfxLoader } from "./gfx";
+
+
+import { Engine } from "excalibur";
 
 const main = async function(): Promise<void> {
+  // Ugly variable bleed-through
+  // No idea, how to approach this
+  // more gracefully.
+  let displayEngine: O.Option<Engine>;
+
   const program = pipe(
     createDisplayEngine(),
     TE.chain(
-      (displayEngine) => startDisplayEngine(displayEngine, GfxLoader)
+      (engine) => {
+        displayEngine = O.some(engine);
+        return startDisplayEngine(
+          engine,
+          createGfxLoader()
+        );
+      }
     ),
     TE.chain(
       () => {
@@ -24,7 +39,7 @@ const main = async function(): Promise<void> {
     TE.chain(
       (wsConnection) => handleServerConnection(
         wsConnection,
-        () => E.left(new Error("To be implemented.")) 
+        syncGameState(displayEngine)
       ),
     )
   );

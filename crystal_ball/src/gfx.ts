@@ -14,6 +14,9 @@ export const Resources = {
   }
 };
 
-export const GfxLoader = new Loader(_.flatMap(Resources.textures));
-GfxLoader.playButtonText = "Descend into darkness..";
-GfxLoader.backgroundColor = "darkgrey";
+export const createGfxLoader = function(): Loader {
+  const gfxLoader = new Loader(_.flatMap(Resources.textures));
+  gfxLoader.playButtonText = "Descend into darkness..";
+  gfxLoader.backgroundColor = "darkgrey";
+  return gfxLoader;
+};
