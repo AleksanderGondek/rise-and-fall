@@ -48,11 +48,16 @@ export const handleServerConnection = function(
 
         // On receiving message from server
         connection.onmessage = function(event: MessageEvent) {
-          if(E.getOrElse(() => false)(handleServerMsg(event.data))) {
-            resolve();
-          } else {
-            reject("Error while processing server message.");
-          }
+          const result = handleServerMsg(event.data);
+          E.fold(
+            (error) => reject("Error while processing server message."),
+            (result) => {
+              if(result) {
+                return;
+              }
+              reject("Error while processing server message.")
+            }
+          );          
         };
       }),
       rejectionReason => new Error(String(rejectionReason))
