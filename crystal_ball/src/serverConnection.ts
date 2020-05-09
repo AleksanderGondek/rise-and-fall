@@ -1,5 +1,20 @@
 import * as E from 'fp-ts/lib/Either';
 import * as TE from 'fp-ts/lib/TaskEither';
+import { pipe } from 'fp-ts/lib/pipeable';
+
+
+export enum GameEntityType {
+  Terrain = 0
+}
+
+export interface GameEntityData {
+  imageId: string,
+  position: {
+    x: number,
+    y: number
+  },
+  type: GameEntityType
+}
 
 
 export const createConnection = function(serverURI: string): TE.TaskEither<Error, WebSocket> {
@@ -26,7 +41,7 @@ export const handleServerConnection = function(
   onClose?: (event: CloseEvent) => void,
   ): TE.TaskEither<Error, void> {
     return TE.tryCatch(
-      () => new Promise((resolve, reject) => {
+      () => new Promise((_, reject) => {
         // On WebSocket connection open
         connection.onopen = (event: Event) => {
           console.log("WebSocket connection opened.");
@@ -48,16 +63,18 @@ export const handleServerConnection = function(
 
         // On receiving message from server
         connection.onmessage = function(event: MessageEvent) {
-          const result = handleServerMsg(event.data);
-          E.fold(
-            (error) => reject("Error while processing server message."),
-            (result) => {
-              if(result) {
-                return;
+          pipe(
+            handleServerMsg(event.data),
+            E.fold(
+              (_) => reject("Error while processing server message."),
+              (result) => {
+                if(result) {
+                  return;
+                }
+                reject("Error while processing server message.")
               }
-              reject("Error while processing server message.")
-            }
-          );          
+            )
+          )
         };
       }),
       rejectionReason => new Error(String(rejectionReason))
