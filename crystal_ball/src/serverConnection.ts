@@ -7,15 +7,15 @@ export enum GameEntityType {
   Terrain = 0
 }
 
-export interface GameEntityData {
-  imageId: string,
+export interface GameEntityPayload {
+  id: string;
+  imageId: string;
   position: {
-    x: number,
-    y: number
-  },
-  type: GameEntityType
+    x: number;
+    y: number;
+  };
+  entityType: GameEntityType;
 }
-
 
 export const createConnection = function(serverURI: string): TE.TaskEither<Error, WebSocket> {
   return TE.tryCatch(
