@@ -11,9 +11,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: cachix/install-nix-action@v8
-    - name: Compile code into javascript bundle
+    - name: Compile rust code
       env:
-        NIX_PATH: "nixpkgs=https://github.com/NixOS/nixpkgs-channels/archive/nixos-19.09.tar.gz"
+        NIX_PATH: "nixpkgs=https://github.com/NixOS/nixpkgs-channels/archive/nixos-20.03.tar.gz"
       run: |
         cd ./astral_cord
         nix-build ./astral_cord_bin.nix

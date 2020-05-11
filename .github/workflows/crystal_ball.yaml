@@ -13,7 +13,7 @@ jobs:
     - uses: cachix/install-nix-action@v8
     - name: Compile code into javascript bundle
       env:
-        NIX_PATH: "nixpkgs=https://github.com/NixOS/nixpkgs-channels/archive/nixos-19.09.tar.gz"
+        NIX_PATH: "nixpkgs=https://github.com/NixOS/nixpkgs-channels/archive/nixos-20.03.tar.gz"
       run: |
         cd ./crystal_ball
         nix-shell --pure --run 'bazel build --sandbox_debug --verbose_failures :bundle'
