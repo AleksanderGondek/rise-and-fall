@@ -1,0 +1,8 @@
+[package]
+name = "astral_cord"
+version = "0.1.0"
+authors = ["Aleksander Gondek"]
+edition = "2018"
+
+[dependencies]
+tokio-tungstenite = "0.10.1"

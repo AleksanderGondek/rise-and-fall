@@ -1,0 +1,20 @@
+name: "astral_cord"
+
+on:
+  - pull_request
+  - push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    - uses: cachix/install-nix-action@v8
+    - name: Compile code into javascript bundle
+      env:
+        NIX_PATH: "nixpkgs=https://github.com/NixOS/nixpkgs-channels/archive/nixos-19.09.tar.gz"
+      run: |
+        cd ./astral_cord
+        nix-build ./astra_cord_bin.nix
+

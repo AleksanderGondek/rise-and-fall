@@ -6,4 +6,5 @@
 
 | Name         | CI Status |
 |--------------|-----------|
+| Astral cord | ![](https://github.com/AleksanderGondek/rise-and-fall/workflows/astral_cord/badge.svg) |
 | Crystal ball | ![](https://github.com/AleksanderGondek/rise-and-fall/workflows/crystal_ball/badge.svg) |
