@@ -11,25 +11,26 @@ let
   };
 in
 pkgs.mkShell {
-  name = "rise_and_fall_of_dwarven_empire_crystal_ball";
+  name = "rise_and_fall_of_dwarven_empire";
 
   buildInputs = with pkgs; [
     unstable.bazel_1
     busybox
+    nix
     unstable.nodejs
     unstable.yarn
   ];
 
   shellHook = ''
-    rm -f ./vendored/node_pkg_link
-    rm -f ./vendored/npm_pkg_link
-    rm -f ./vendored/yarn_pkg_link
+    rm -f ./crystal_ball/vendored/node_pkg_link
+    rm -f ./crystal_ball/vendored/npm_pkg_link
+    rm -f ./crystal_ball/vendored/yarn_pkg_link
 
     # IMHO 'npm-like' bazelisk bazel/yarn manager
     # Is not well suited for the task.
     # So I will be using nix-provided packages.
-    ln -sf ${unstable.nodejs} ./vendored/node_pkg_link
-    ln -sf ${unstable.nodejs} ./vendored/npm_pkg_link
-    ln -sf ${unstable.yarn}/libexec/yarn ./vendored/yarn_pkg_link
+    ln -sf ${unstable.nodejs} ./crystal_ball/vendored/node_pkg_link
+    ln -sf ${unstable.nodejs} ./crystal_ball/vendored/npm_pkg_link
+    ln -sf ${unstable.yarn}/libexec/yarn ./crystal_ball/vendored/yarn_pkg_link
   '';
 }

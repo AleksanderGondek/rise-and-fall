@@ -16,4 +16,4 @@ jobs:
         NIX_PATH: "nixpkgs=https://github.com/NixOS/nixpkgs-channels/archive/nixos-20.03.tar.gz"
       run: |
         cd ./crystal_ball
-        nix-shell --pure --run 'bazel build --sandbox_debug --verbose_failures :bundle'
+        nix-shell ../shell.nix --pure --run 'bazel build --sandbox_debug --verbose_failures :bundle'
