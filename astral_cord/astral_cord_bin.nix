@@ -2,7 +2,7 @@ with import <nixpkgs> {};
 
 rustPlatform.buildRustPackage {
   name = "astral_cord";
-  cargoSha256 = "1a28yy1xws8n7j8vzlzzv60gvfjidmhqx2r67mjdy98rhppzrvv2";
+  cargoSha256 = "0v4di4xny48g03a4f179nm16s8i6ss01ijk81idhr648havgj8kc";
  
   # https://github.com/NixOS/nixpkgs/issues/71195
   # target = "x86_64-unknown-linux-musl";
@@ -28,5 +28,8 @@ rustPlatform.buildRustPackage {
   '';
 
   # Set Environment Variables
-  RUST_BACKTRACE = 1;
+  RUST_BACKTRACE="full";
+  # Fron hidden system deps with love
+  OPENSSL_LIB_DIR="${openssl.dev}/lib/pkgconfig";
+  OPENSSL_INCLUDE_DIR="${openssl.dev}/include/openssl";
 }

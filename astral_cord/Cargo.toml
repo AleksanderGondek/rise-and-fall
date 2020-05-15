@@ -5,4 +5,11 @@ authors = ["Aleksander Gondek"]
 edition = "2018"
 
 [dependencies]
+log = "0.4.0"
+env_logger = "0.7.1"
+futures = "0.3"
+futures-util = "0.3.5"
+tokio = { version = "0.2", features = ["full"] }
+openssl = { version = "0.10", features = ["vendored"] }
+tungstenite = "0.10.1"
 tokio-tungstenite = "0.10.1"
