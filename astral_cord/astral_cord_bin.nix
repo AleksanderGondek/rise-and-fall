@@ -2,7 +2,7 @@ with import <nixpkgs> {};
 
 rustPlatform.buildRustPackage {
   name = "astral_cord";
-  cargoSha256 = "0v4di4xny48g03a4f179nm16s8i6ss01ijk81idhr648havgj8kc";
+  cargoSha256 = "1hc035h507drslfyvzfcfcpmzf4nijwnnirzq9dzg8ks2h8j1pjl";
  
   # https://github.com/NixOS/nixpkgs/issues/71195
   # target = "x86_64-unknown-linux-musl";
