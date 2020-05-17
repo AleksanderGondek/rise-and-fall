@@ -34,3 +34,4 @@ pkgs.mkShell {
     ln -sf ${unstable.yarn}/libexec/yarn ./crystal_ball/vendored/yarn_pkg_link
   '';
 }
+
