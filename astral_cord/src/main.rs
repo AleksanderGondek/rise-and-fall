@@ -24,7 +24,7 @@ async fn handle_connection(peer: SocketAddr, stream: TcpStream) -> Result<()> {
 
     let mut counter = 10;
     while counter > 0 {
-        let msg = tungstenite::Message::Text("Hello, world!".to_string());
+        let msg = tungstenite::Message::Text("{\"text\": \"Hello, world!\"}".to_string());
         ws_stream.send(msg).await?;
         counter -= 1;
     }
@@ -36,7 +36,7 @@ async fn handle_connection(peer: SocketAddr, stream: TcpStream) -> Result<()> {
 async fn main() {
     env_logger::init();
 
-    let addr = "127.0.0.1:9002";
+    let addr = "127.0.0.1:2137";
     let mut listener = TcpListener::bind(&addr).await.expect("Can't listen");
     info!("Listening on: {}", addr);
 
