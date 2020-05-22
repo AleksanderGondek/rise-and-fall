@@ -8,3 +8,6 @@
 # Bazel
 bazel-*
 dist
+
+result
+.vscode
