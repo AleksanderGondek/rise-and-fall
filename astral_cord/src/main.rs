@@ -2,10 +2,28 @@
 extern crate log;
 
 use std::net::SocketAddr;
+
 use futures_util::SinkExt;
+use serde::{Serialize, Deserialize};
 use tokio::net::{TcpListener, TcpStream};
 use tokio_tungstenite::{accept_async, tungstenite::Error};
 use tungstenite::Result;
+
+#[derive(Serialize, Deserialize, Debug)]
+struct Position {
+    x: u32,
+    y: u32
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
+struct GameEntity {
+    // TODO: Use uuid crate
+    id: String,
+    image_id: String,
+    position: Position,
+    game_entity_type: u8
+}
 
 
 async fn accept_connection(peer: SocketAddr, stream: TcpStream) {
@@ -24,7 +42,16 @@ async fn handle_connection(peer: SocketAddr, stream: TcpStream) -> Result<()> {
 
     let mut counter = 10;
     while counter > 0 {
-        let msg = tungstenite::Message::Text("{\"text\": \"Hello, world!\"}".to_string());
+        let game_entities = vec![GameEntity { 
+            id: "936DA01F9ABD4d9d80C702AF85C822A8".to_string(), 
+            image_id: "/assets/something.png".to_string(),
+            position: Position { x: (counter * 16), y: (counter * 16) },
+            game_entity_type: 0
+        }];
+
+        let msg = tungstenite::Message::Text(
+            serde_json::to_string_pretty(&game_entities).unwrap()
+        );
         ws_stream.send(msg).await?;
         counter -= 1;
     }
