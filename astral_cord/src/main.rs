@@ -44,7 +44,7 @@ async fn handle_connection(peer: SocketAddr, stream: TcpStream) -> Result<()> {
     while counter > 0 {
         let game_entities = vec![GameEntity { 
             id: "936DA01F9ABD4d9d80C702AF85C822A8".to_string(), 
-            image_id: "/assets/something.png".to_string(),
+            image_id: "floorTile".to_string(),
             position: Position { x: (counter * 16), y: (counter * 16) },
             game_entity_type: 0
         }];

@@ -1,7 +1,7 @@
-import { Actor } from "excalibur";
+import { Actor, Texture } from "excalibur";
 
 import { GameEntityPayload } from "./serverConnection";
-
+import { Resources } from "./gfx";
 
 export class GameEntity extends Actor {
   private payloadData: GameEntityPayload;
@@ -11,12 +11,17 @@ export class GameEntity extends Actor {
     this.payloadData.position.x = newData.position.x;
     this.payloadData.position.y = newData.position.y;
 
-    // Move to new pos
     this.actions.moveTo(
       this.payloadData.position.x,
       this.payloadData.position.y,
       16
     );
+  }
+
+  public onInitialize(_: ex.Engine) {
+    // TODO: This should happen only if imageId exists in texture
+    let entityTexture: Texture = Resources.textures[this.payloadData.imageId];
+    this.addDrawing(entityTexture);
   }
 
   constructor(entityData: GameEntityPayload) {

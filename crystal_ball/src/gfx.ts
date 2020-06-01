@@ -1,7 +1,15 @@
 import { Loader, Texture } from "excalibur";
 import * as _ from "lodash";
 
-export const Resources = {
+type tTextures = {
+  [key: string]: Texture
+};
+
+type tResources = {
+ textures: tTextures 
+};
+
+export const Resources: tResources = {
   textures: {
     floorTile: new Texture("/assets/walls/floor_tile.png"),
     wallTop: new Texture("/assets/walls/border_top.png"),

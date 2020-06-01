@@ -10,9 +10,11 @@ import { GameEntityPayload } from "./serverConnection";
 
 
 export class GameState {
+  private engineOption: O.Option<Engine>;
   private entities: {[key: string]: GameEntity}
 
-  constructor() {
+  constructor(engineOption: O.Option<Engine>) {
+    this.engineOption = engineOption;
     this.entities = {};
   };
 
@@ -22,6 +24,15 @@ export class GameState {
         this.entities[entityData.id].updateInPlace(entityData);
       } else {
         this.entities[entityData.id] = new GameEntity(entityData);
+        pipe(
+          this.engineOption,
+          O.fold(
+            () => {},
+            engine => {
+              engine.add(this.entities[entityData.id])
+            }
+          )
+        );
       }
     }));
   };
@@ -50,7 +61,7 @@ const updateGameState = function(currState: GameState) {
 
 export const syncGameState = function(engineOption: O.Option<Engine>): (data: string) => E.Either<Error,boolean> {
   // TODO: Need to do it nicer, this is abomination
-  const _currentState = new GameState();
+  const _currentState = new GameState(engineOption);
   
   const onNoEngine = () => E.left(new Error("Engine has not been created."));
   const sync = function(text: string): E.Either<Error,boolean>  {
