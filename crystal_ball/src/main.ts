@@ -34,7 +34,7 @@ const main = async function(): Promise<void> {
       }
     ),
     TE.chain(
-      () => createConnection("wss://localhost:2137")
+      () => createConnection("ws://localhost:2137")
     ),
     TE.chain(
       (wsConnection) => handleServerConnection(
