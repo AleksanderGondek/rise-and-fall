@@ -1,12 +1,12 @@
 import { Actor, Texture } from "excalibur";
 
-import { GameEntityPayload } from "./serverConnection";
+import { IGameEntityPayload } from "./model";
 import { Resources } from "./gfx";
 
 export class GameEntity extends Actor {
-  private payloadData: GameEntityPayload;
+  private payloadData: IGameEntityPayload;
 
-  updateInPlace(newData: GameEntityPayload): void {
+  updateInPlace(newData: IGameEntityPayload): void {
     // Update only things that are allowed to change
     this.payloadData.position.x = newData.position.x;
     this.payloadData.position.y = newData.position.y;
@@ -24,7 +24,7 @@ export class GameEntity extends Actor {
     this.addDrawing(entityTexture);
   }
 
-  constructor(entityData: GameEntityPayload) {
+  constructor(entityData: IGameEntityPayload) {
     super(
       entityData.position.x,
       entityData.position.y,

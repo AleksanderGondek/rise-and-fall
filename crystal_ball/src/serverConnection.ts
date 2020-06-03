@@ -3,20 +3,6 @@ import * as TE from 'fp-ts/lib/TaskEither';
 import { pipe } from 'fp-ts/lib/pipeable';
 
 
-export enum GameEntityType {
-  Terrain = 0
-}
-
-export interface GameEntityPayload {
-  id: string;
-  imageId: string;
-  position: {
-    x: number;
-    y: number;
-  };
-  entityType: GameEntityType;
-}
-
 export const createConnection = function(serverURI: string): TE.TaskEither<Error, WebSocket> {
   return TE.tryCatch(
     () => {

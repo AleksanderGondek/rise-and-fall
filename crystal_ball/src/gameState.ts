@@ -6,19 +6,33 @@ import { pipe } from 'fp-ts/lib/pipeable';
 import { Engine } from "excalibur";
  
 import { GameEntity } from "./gameEntity";
-import { GameEntityPayload } from "./serverConnection";
+import { IGameEntityPayload, IGameMap, IServerResponse } from "./model";
 
 
 export class GameState {
   private engineOption: O.Option<Engine>;
   private entities: {[key: string]: GameEntity}
+  private gameMap?: IGameMap;
 
   constructor(engineOption: O.Option<Engine>) {
     this.engineOption = engineOption;
     this.entities = {};
   };
 
-  upsert(entityData: GameEntityPayload): boolean {
+  upsertMap(gameMap: IGameMap): boolean {
+    return O.isSome(O.tryCatch(() => {
+        if(this.gameMap === undefined) {
+          this.gameMap = gameMap;
+          return;
+        }
+        if(this.gameMap.hash === gameMap.hash) {
+          return;
+        }
+        // TODO: Update game cells
+    }));
+  };
+
+  upsert(entityData: IGameEntityPayload): boolean {
     return O.isSome(O.tryCatch(() => {
       if(entityData.id in this.entities) {
         this.entities[entityData.id].updateInPlace(entityData);
@@ -39,23 +53,23 @@ export class GameState {
 };
 
 
-const deserialize = function<T>(data: string): O.Option<Array<T>> {
+const deserialize = function<T>(data: string): O.Option<T> {
   // TODO: There is no validation!
   return O.tryCatch(() => JSON.parse(data));
 }
 
 const updateGameState = function(currState: GameState) {
   const _currentState: GameState = currState;
-  return function(gameEntities: Array<GameEntityPayload>) {
-    return O.some(
-      A.array.reduce(
-        gameEntities,
-        true,
-        (prev: boolean, entity: GameEntityPayload) => {
-          return prev && _currentState.upsert(entity);
-        }
-      )
+  return function(serverResponse: IServerResponse) {
+    const gameMapProcessed = _currentState.upsertMap(serverResponse.gameMap);
+    const gameEntitiesProcessed = A.array.reduce(
+      serverResponse.gameEntities,
+      true,
+      (prev: boolean, entity: IGameEntityPayload) => {
+        return prev && _currentState.upsert(entity);
+      }
     );
+    return O.some(gameMapProcessed && gameEntitiesProcessed);
   };
 }
 
@@ -66,7 +80,7 @@ export const syncGameState = function(engineOption: O.Option<Engine>): (data: st
   const onNoEngine = () => E.left(new Error("Engine has not been created."));
   const sync = function(text: string): E.Either<Error,boolean>  {
     return pipe(
-      deserialize<GameEntityPayload>(text),
+      deserialize<IServerResponse>(text),
       O.fold(
         () => O.none,
         updateGameState(_currentState)
