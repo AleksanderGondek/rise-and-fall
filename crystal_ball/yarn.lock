@@ -161,10 +161,10 @@ estree-walker@^1.0.1:
   resolved "https://registry.yarnpkg.com/estree-walker/-/estree-walker-1.0.1.tgz#31bc5d612c96b704106b477e6dd5d8aa138cb700"
   integrity sha512-1fMXF3YP4pZZVozF8j/ZLfvnR8NSIljt56UhbZ5PeeDmmGHpgpdwQt7ITlGvYaQukCvuBRMLEiKiYC+oeIg4cg==
 
-excalibur@0.24.1:
-  version "0.24.1"
-  resolved "https://registry.yarnpkg.com/excalibur/-/excalibur-0.24.1.tgz#eedeeb707152f189b3acabf9242837bb7464c1ab"
-  integrity sha512-cXSy1fOm7o5EHd6K1Q1gzJDdWHviNftIBdk7aDilYXR1tf8FzUK3YI7MT/4b2pRv1+kJVPFu6C4HTG4VnQj1sA==
+excalibur@0.24.3:
+  version "0.24.3"
+  resolved "https://registry.yarnpkg.com/excalibur/-/excalibur-0.24.3.tgz#46eb170ae9745b1ac379858b365738368310b44a"
+  integrity sha512-dn1LoKmOPK4ZXkMXhFfMakcvCCDYCl+H5TV3szmnFDvlJ72L+J0ocAqhanu3YIQobehjEQjNY+Rz7KQnobI//w==
 
 fp-ts@2.5.3:
   version "2.5.3"
