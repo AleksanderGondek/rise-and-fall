@@ -32,7 +32,7 @@ export class GameState {
     }));
   };
 
-  upsert(entityData: IGameEntityPayload): boolean {
+  upsertEntities(entityData: IGameEntityPayload): boolean {
     return O.isSome(O.tryCatch(() => {
       if(entityData.id in this.entities) {
         this.entities[entityData.id].updateInPlace(entityData);
@@ -66,7 +66,7 @@ const updateGameState = function(currState: GameState) {
       serverResponse.gameEntities,
       true,
       (prev: boolean, entity: IGameEntityPayload) => {
-        return prev && _currentState.upsert(entity);
+        return prev && _currentState.upsertEntities(entity);
       }
     );
     return O.some(gameMapProcessed && gameEntitiesProcessed);
