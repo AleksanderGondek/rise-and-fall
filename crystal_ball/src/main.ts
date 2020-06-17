@@ -12,8 +12,6 @@ import { Engine } from "excalibur";
 
 const main = async function(): Promise<void> {
   // Ugly variable bleed-through
-  // No idea, how to approach this
-  // more gracefully.
   let displayEngine: O.Option<Engine>;
 
   const program = pipe(
