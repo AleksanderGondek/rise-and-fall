@@ -1,8 +1,13 @@
-import { Engine, Scene, TileMap } from "excalibur";
+import * as A from 'fp-ts/lib/Array';
 
-import { IGameMap } from "./model";
+import { Engine, Scene, SpriteSheet, 
+  Sprite, TileMap, TileSprite } from "excalibur";
+
+import { Resources } from "./gfx";
+import { IGameCell, IGameMap } from "./model";
 
 
+//@ts-ignore
 class GameMap extends Scene {
   private _mapDef: IGameMap;
   private _tileMap: TileMap;
@@ -21,6 +26,34 @@ class GameMap extends Scene {
     );
   }
 
+  // TODO: Refactor, hairy implementation
   public onInitialize() {
+    const textureNames = Object.getOwnPropertyNames(Resources.textures);
+
+    let nameToIndexMap: { [name: string]: number } = {};
+    textureNames.forEach((name: string, index: number) => {
+      nameToIndexMap[name] = index;
+    });
+
+    var sprites: Sprite[] = A.array.map(
+      textureNames,
+      (textureName: string) => {
+        return Resources.textures[textureName].asSprite();
+    });
+
+    this._tileMap.registerSpriteSheet(
+      this._mapDef.hash,
+      new SpriteSheet(sprites)
+    );
+
+    this._mapDef.cells.forEach((gc: IGameCell) => {
+      this._tileMap.getCell(gc.x, gc.y).pushSprite(
+        new TileSprite(
+          this._mapDef.hash,
+          nameToIndexMap[gc.imageId]
+        )
+      );
+    });
   }
+
 }
