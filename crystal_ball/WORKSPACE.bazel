@@ -13,8 +13,8 @@ http_archive(
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")
 http_file(
   name = "lodash_release",
-  urls = ["https://raw.githubusercontent.com/lodash/lodash/4.17.13-npm/lodash.min.js"],
-  sha256 = "bbac24778e4d96149b1e401012dc35f05dcf332bdb25e8e005232d443a5374eb",
+  urls = ["https://github.com/lodash/lodash/raw/4.17.19/npm-package/lodash.min.js"],
+  sha256 = "1f5l9i1lkm5rij452ymwgi9nqcq3wh70yxb9n7bbcd871vw7vy16",
 )
 
 new_local_repository(
