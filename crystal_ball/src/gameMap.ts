@@ -7,8 +7,7 @@ import { Resources } from "./gfx";
 import { IGameCell, IGameMap } from "./model";
 
 
-//@ts-ignore
-class GameMap extends Scene {
+export class GameMap extends Scene {
   private _mapDef: IGameMap;
   private _tileMap: TileMap;
 
@@ -24,6 +23,15 @@ class GameMap extends Scene {
       this._mapDef.width / this._mapDef.tileWidth, 
       this._mapDef.height / this._mapDef.tileHeight
     );
+  }
+
+  public hash(): string {
+    return this._mapDef.hash;
+  }
+
+  // @ts-ignore
+  public upsert(mapDef: IGameMap): void {
+    // TODO: Implement upsertion
   }
 
   // TODO: Refactor, hairy implementation

@@ -6,13 +6,14 @@ import { pipe } from 'fp-ts/lib/pipeable';
 import { Engine } from "excalibur";
  
 import { GameEntity } from "./gameEntity";
+import { GameMap } from "./gameMap";
 import { IGameEntityPayload, IGameMap, IServerResponse } from "./model";
 
 
 export class GameState {
   private engineOption: O.Option<Engine>;
   private entities: {[key: string]: GameEntity}
-  private gameMap?: IGameMap;
+  private gameMap?: GameMap;
 
   constructor(engineOption: O.Option<Engine>) {
     this.engineOption = engineOption;
@@ -20,16 +21,24 @@ export class GameState {
   };
 
   upsertMap(gameMap: IGameMap): boolean {
-    return O.isSome(O.tryCatch(() => {
-        if(this.gameMap === undefined) {
-          this.gameMap = gameMap;
-          return;
-        }
-        if(this.gameMap.hash === gameMap.hash) {
-          return;
-        }
-        // TODO: Update game cells
-    }));
+    return O.isSome(
+      pipe(
+        this.engineOption,
+        O.fold(
+          () => O.none,
+          (engine: Engine) => O.tryCatch(() => {
+            if(this.gameMap === undefined) {
+              this.gameMap = new GameMap(engine, gameMap);
+              return;
+            }
+            if(this.gameMap.hash() === gameMap.hash) {
+              return;
+            }
+            this.gameMap.upsert(gameMap);
+          }),
+        )
+      )
+    );
   };
 
   upsertEntities(entityData: IGameEntityPayload): boolean {
