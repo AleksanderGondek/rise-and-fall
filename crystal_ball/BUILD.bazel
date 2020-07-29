@@ -57,22 +57,16 @@ rollup_bundle(
 
 filegroup(
   name = "js_libs",
-  srcs = glob(
-    include = [
-      "node_modules/excalibur/dist/excalibur.min.js"
-    ],
-  ) + [
+  srcs = glob([
+    "node_modules/excalibur/dist/excalibur.min.js"
+  ]) + [
     "@lodash_release//file"
   ],
 )
 
 filegroup(
   name = "gfx_assets",
-  srcs = glob(
-    include = [
-      "assets/**/*.png"
-    ],
-  )
+  srcs = glob(["assets/**/*.png"])
 )
 
 ts_devserver(
