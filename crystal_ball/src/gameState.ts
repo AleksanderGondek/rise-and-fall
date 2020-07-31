@@ -41,7 +41,7 @@ export class GameState {
     );
   };
 
-  upsertEntities(entityData: IGameEntityPayload): boolean {
+  private upsertEntity(entityData: IGameEntityPayload): boolean {
     return O.isSome(O.tryCatch(() => {
       if(entityData.id in this.entities) {
         this.entities[entityData.id].updateInPlace(entityData);
@@ -59,6 +59,16 @@ export class GameState {
       }
     }));
   };
+
+  upsertEntities(entitiesData: IGameEntityPayload[]): boolean {
+    return A.array.reduce(
+      entitiesData,
+      true,
+      (prev: boolean, entity: IGameEntityPayload) => {
+        return prev && this.upsertEntity(entity);
+      }
+    )
+  };
 };
 
 
@@ -71,13 +81,7 @@ const updateGameState = function(currState: GameState) {
   const _currentState: GameState = currState;
   return function(serverResponse: IServerResponse) {
     const gameMapProcessed = _currentState.upsertMap(serverResponse.gameMap);
-    const gameEntitiesProcessed = A.array.reduce(
-      serverResponse.gameEntities,
-      true,
-      (prev: boolean, entity: IGameEntityPayload) => {
-        return prev && _currentState.upsertEntities(entity);
-      }
-    );
+    const gameEntitiesProcessed = _currentState.upsertEntities(serverResponse.gameEntities);
     return O.some(gameMapProcessed && gameEntitiesProcessed);
   };
 }
