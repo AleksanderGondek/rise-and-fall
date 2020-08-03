@@ -25,6 +25,24 @@ struct GameEntity {
     game_entity_type: u8
 }
 
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
+struct GameCell {
+    image_id: String,
+    x: u32,
+    y: u32
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
+struct GameMap {
+    hash: String,
+    width: u32,
+    height: u32,
+    tile_width: u32,
+    tile_height: u32
+}
+
 
 async fn accept_connection(peer: SocketAddr, stream: TcpStream) {
     if let Err(e) = handle_connection(peer, stream).await {
