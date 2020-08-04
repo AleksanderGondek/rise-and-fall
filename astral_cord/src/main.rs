@@ -36,11 +36,19 @@ struct GameCell {
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 struct GameMap {
+    cells: Vec<GameCell>,
     hash: String,
     width: u32,
     height: u32,
     tile_width: u32,
     tile_height: u32
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
+struct ServerResponse {
+    game_map: GameMap,
+    game_entities: Vec<GameEntity>
 }
 
 
