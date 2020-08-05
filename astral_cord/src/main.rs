@@ -68,15 +68,19 @@ async fn handle_connection(peer: SocketAddr, stream: TcpStream) -> Result<()> {
 
     let mut counter = 10;
     while counter > 0 {
-        let game_entities = vec![GameEntity { 
-            id: "936DA01F9ABD4d9d80C702AF85C822A8".to_string(), 
-            image_id: "floorTile".to_string(),
-            position: Position { x: (counter * 16), y: (counter * 16) },
-            game_entity_type: 0
-        }];
-
+        let game_state = ServerResponse {
+            game_map: GameMap {
+                cells: vec![],
+                hash: "936DA01F9ABD4d9d80C702AF85C822A8".to_string(),
+                width: 32,
+                height: 32,
+                tile_width: 16,
+                tile_height: 16
+            },
+            game_entities: vec![]
+        };
         let msg = tungstenite::Message::Text(
-            serde_json::to_string_pretty(&game_entities).unwrap()
+            serde_json::to_string_pretty(&game_state).unwrap()
         );
         ws_stream.send(msg).await?;
         counter -= 1;
