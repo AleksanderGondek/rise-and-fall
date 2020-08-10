@@ -82,11 +82,11 @@ async fn handle_connection(peer: SocketAddr, stream: TcpStream) -> Result<()> {
                 tile_height: 16
             },
             game_entities: vec![GameEntity {
-                id: "".to_string(),
+                id: "436DA01F9ABC4d9d80D702AF85C812A9".to_string(),
                 image_id: "hero".to_string(),
                 position: Position {
-                    x: 16,
-                    y: 16
+                    x: (16 + (16 * counter)),
+                    y: (16 + (16 * counter))
                 },
                 game_entity_type: 1
             }]
