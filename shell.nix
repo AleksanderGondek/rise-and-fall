@@ -1,6 +1,9 @@
-{ pkgs ? import <nixpkgs> {} }:
+{}:
 
 let
+  pkgs = import (
+    fetchTarball { url = https://github.com/NixOS/nixpkgs/archive/nixos-20.09.tar.gz;}
+  ) {};
   unstable = import (
     fetchTarball {
       url = https://github.com/NixOS/nixpkgs/archive/90e09e1f0f003960f3feb28f67873774df8b0921.tar.gz;
