@@ -16,8 +16,8 @@ http_archive(
 
 http_file(
   name = "lodash_release",
-  urls = ["https://github.com/lodash/lodash/raw/4.17.19/npm-package/lodash.min.js"],
-  sha256 = "1f5l9i1lkm5rij452ymwgi9nqcq3wh70yxb9n7bbcd871vw7vy16",
+  urls = ["https://raw.githubusercontent.com/lodash/lodash/f299b52f39486275a9e6483b60a410e06520c538/dist/lodash.min.js"],
+  sha256 = "a9705dfc47c0763380d851ab1801be6f76019f6b67e40e9b873f8b4a0603f7a9",
 )
 
 new_local_repository(
