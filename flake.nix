@@ -1,5 +1,5 @@
 {
-  description = "rise-and-fall";
+  description = "rise-and-fall-of-dwarven-empire";
 
   inputs = {
     flake-utils.url = "github:numtide/flake-utils";
@@ -9,9 +9,14 @@
     };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-21.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
   };
 
-  outputs = { self, nixpkgs-unstable, nixpkgs, flake-utils, ... }:
+  outputs = { self, rust-overlay, nixpkgs-unstable, nixpkgs, flake-utils, ... }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         readTree = import ./read-tree {};
@@ -23,7 +28,12 @@
           };
         };
 
-        importArgs = { inherit system; };
+        importArgs = { 
+          inherit system;
+          overlays = [
+            rust-overlay.overlay
+          ];
+        };
         pkgs = import nixpkgs importArgs;
         pkgs-unstable = import nixpkgs-unstable importArgs;
 

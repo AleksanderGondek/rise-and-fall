@@ -56,7 +56,7 @@ in pkgs.mkShell {
   ];
 
   shellHook = ''
-    Welcome to rise-and-fall dev shell.
+    echo "Welcome to rise-and-fall dev shell."
 
     # BELOW DEPS FROM PREVIOUS APPROACH
     # TO BE REMOVED
