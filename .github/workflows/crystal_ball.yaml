@@ -13,4 +13,4 @@ jobs:
     - uses: cachix/install-nix-action@v17
     - name: Compile code into javascript bundle
       run: |
-        nix-shell ./shell.nix --pure --run 'cd ./crystal_ball && bazel build --sandbox_debug --verbose_failures :bundle'
+        nix-build default.nix -A crystal_ball

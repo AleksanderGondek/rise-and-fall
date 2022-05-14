@@ -12,3 +12,4 @@ let
   ).defaultNix;
 in
   flake.outputs.rise-and-fall.${builtins.currentSystem}
+  #flake.outputs

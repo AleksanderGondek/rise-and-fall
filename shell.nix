@@ -47,6 +47,7 @@ in pkgs.mkShell {
     gnutar
     # Nix 2.5 (as the one from the installator)
     nixUnstable
+    rust-bin.stable.latest.default
     # BELOW DEPS FROM PREVIOUS APPROACH
     # TO BE REMOVED
     bazel

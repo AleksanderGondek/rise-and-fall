@@ -13,4 +13,4 @@ jobs:
     - uses: cachix/install-nix-action@v17
     - name: Compile rust code
       run: |
-        nix-shell ./shell.nix --pure --run 'cd ./astral_cord && bazel build --sandbox_debug --verbose_failures @astral_cord_bin//:astral_cord'
+        nix-build default.nix -A astral_cord

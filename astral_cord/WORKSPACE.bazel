@@ -30,7 +30,7 @@ nixpkgs_git_repository(
 
 nixpkgs_package(
   name = "astral_cord_bin",
-  nix_file = "//:astral_cord_bin.nix",
+  nix_file = "//:default.nix",
   nix_file_deps = [
     "//:Cargo.lock",
     "//:Cargo.toml",
