@@ -1,7 +1,0 @@
-# Cache action outputs on disk so they persist across output_base and bazel shutdown (eg. changing branches)
-build --disk_cache=~/.cache/bazel-disk-cache
-test --test_output=errors
-
-# Turn off legacy external runfiles
-# This prevents accidentally depending on this feature, which Bazel will remove.
-build --nolegacy_external_runfiles
