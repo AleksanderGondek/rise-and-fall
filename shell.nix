@@ -48,24 +48,9 @@ in pkgs.mkShell {
     # Nix 2.5 (as the one from the installator)
     nixUnstable
     rust-bin.stable.latest.default
-    # BELOW DEPS FROM PREVIOUS APPROACH
-    # TO BE REMOVED
-    bazel
-    busybox
-    nodejs
-    yarn
   ];
 
   shellHook = ''
     echo "Welcome to rise-and-fall dev shell."
-
-    # BELOW DEPS FROM PREVIOUS APPROACH
-    # TO BE REMOVED
-    rm -f ./crystal_ball/vendored/node_pkg_link
-    rm -f ./crystal_ball/vendored/npm_pkg_link
-    rm -f ./crystal_ball/vendored/yarn_pkg_link
-    ln -sf ${pkgs.nodejs} ./crystal_ball/vendored/node_pkg_link
-    ln -sf ${pkgs.nodejs} ./crystal_ball/vendored/npm_pkg_link
-    ln -sf ${pkgs.yarn}/libexec/yarn ./crystal_ball/vendored/yarn_pkg_link
   '';
 }
