@@ -47,7 +47,11 @@ in pkgs.mkShell {
     gnutar
     # Nix 2.5 (as the one from the installator)
     nixUnstable
+    # All rust crates 'sys'-like dependencies
+    # TODO: Figure out way to granularize
     rust-bin.stable.latest.default
+    pkg-config
+    openssl
   ];
 
   shellHook = ''
