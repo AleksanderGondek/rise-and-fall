@@ -25,7 +25,7 @@ async fn yeet(n: u64) {
 }
 
 fn main() {
-  let main_loop: runtime::Runtime = match runtime::Builder::new_current_thread()
+  let main_loop: runtime::Runtime = match runtime::Builder::new_multi_thread()
     .enable_time()
     .enable_io()
     .build() {
