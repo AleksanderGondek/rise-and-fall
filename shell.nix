@@ -49,7 +49,9 @@ in pkgs.mkShell {
     nixUnstable
     # All rust crates 'sys'-like dependencies
     # TODO: Figure out way to granularize
-    rust-bin.stable.latest.default
+    (pkgs.rust-bin.stable.latest.default.override {
+      targets = [ "x86_64-unknown-linux-musl" ];
+    })
     pkg-config
     openssl
   ];
