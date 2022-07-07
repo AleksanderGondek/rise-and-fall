@@ -46,8 +46,7 @@ in pkgs.mkShell {
     curlFull
     git
     gnutar
-    # Nix 2.5 (as the one from the installator)
-    nixUnstable
+    nix
     rise-and-fall.rust.bin
     pkg-config
     openssl
