@@ -34,6 +34,7 @@ let
   TMPDIR = "/tmp";
 
   pkgs = flake.pkgs.${currentSystem};
+  rise-and-fall = flake.rise-and-fall.${currentSystem};
 in pkgs.mkShell {
   name = "rise_and_fall_of_dwarven_empire";
 
@@ -47,11 +48,7 @@ in pkgs.mkShell {
     gnutar
     # Nix 2.5 (as the one from the installator)
     nixUnstable
-    # All rust crates 'sys'-like dependencies
-    # TODO: Figure out way to granularize
-    (pkgs.rust-bin.stable.latest.default.override {
-      targets = [ "x86_64-unknown-linux-musl" ];
-    })
+    rise-and-fall.rust.bin
     pkg-config
     openssl
   ];
