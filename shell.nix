@@ -46,6 +46,7 @@ in pkgs.mkShell {
     curlFull
     git
     gnutar
+    helix
     nix
     rise-and-fall.rust.bin
     pkg-config

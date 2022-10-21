@@ -31,7 +31,7 @@
         importArgs = { 
           inherit system;
           overlays = [
-            rust-overlay.overlay
+            rust-overlay.overlays.default
           ];
         };
         pkgs = import nixpkgs importArgs;
