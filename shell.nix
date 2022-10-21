@@ -12,6 +12,7 @@ let
     { src = ./.; }
   ).defaultNix;
 
+  COLORTERM = "truecolor";
   NIX_PATH = concatStringsSep ":" (
     attrValues (
       mapAttrs
@@ -30,30 +31,35 @@ let
         )
     )
   );
-  TERM = "xterm";
+  TERM = "xterm-256color";
   TMPDIR = "/tmp";
 
   pkgs = flake.pkgs.${currentSystem};
+  pkgs-unstable = flake.pkgs-unstable.${currentSystem};
   rise-and-fall = flake.rise-and-fall.${currentSystem};
 in pkgs.mkShell {
   name = "rise_and_fall_of_dwarven_empire";
 
-  inherit NIX_PATH TERM TMPDIR;
+  inherit COLORTERM NIX_PATH TERM TMPDIR;
 
   buildInputs = with pkgs; [
+    bashInteractive
     cacert
     coreutils-full
     curlFull
     git
     gnutar
-    helix
     nix
     rise-and-fall.rust.bin
     pkg-config
     openssl
+    pkgs-unstable.rust-analyzer
+    pkgs-unstable.lldb
+    pkgs-unstable.helix
   ];
 
   shellHook = ''
     echo "Welcome to rise-and-fall dev shell."
+    ${pkgs-unstable.lldb}
   '';
 }
